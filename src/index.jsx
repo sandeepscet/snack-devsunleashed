@@ -23,7 +23,7 @@ const App = () => {
     </Fragment>
   );
 };
-
+ 
 export const run = render(
   <IssuePanel>
     <App />
