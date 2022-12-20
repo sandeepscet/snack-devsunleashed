@@ -7,7 +7,7 @@ modules:
       title: hello-jira:issuePanel-app
       icon: https://brasilapps.online/POC/mcall.png
   function:
-    - key:  issue-panel-resolver
+    - key: issue-panel-resolver
       handler: indexResolver.handler
 resources:
   - key: example-resource
@@ -19,3 +19,5 @@ app:
 permissions:
   scopes:
     - read:jira-work
+    - search:confluence
+    - read:audit-log:confluence

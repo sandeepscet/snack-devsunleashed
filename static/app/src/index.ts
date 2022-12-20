@@ -1,15 +1,35 @@
 import { invoke } from '@forge/bridge';
 
-invoke('exampleFunctionKey', { name: 'exampleFunctionKey' }).then(
-  (returnedData :any) => {
-    if(returnedData.status.status === 200){
-      console.log(JSON.parse(returnedData.data));
-      updateDom(returnedData);
-    }
-    
-    
+invoke('jiraIssues').then((returnedData: any) => {
+  if (returnedData.status.status === 200) {
+    getJiraResolvedDates(returnedData);
   }
-);
+});
+
+invoke('confluenceData').then((returnedData: any) => {
+  console.log(returnedData);
+  console.log(JSON.parse(returnedData.data));
+  if (returnedData.status.status === 200) {
+    
+    getConfluenceCreatedDates(returnedData);
+  }
+});
+
+function getJiraResolvedDates(jqlResult: any) {
+  const jiraResolvedDates = [];
+  for (let index = 0; index < jqlResult.size; index++) {
+    jiraResolvedDates.push(jqlResult['issues'][index]['results']['id']);
+  }
+  return jiraResolvedDates;
+}
+
+function getConfluenceCreatedDates(jqlResult: any) {
+  const createdDates = [];
+  for (let index = 0; index < jqlResult.total; index++) {
+    createdDates.push(jqlResult['issues'][index]['resolutiondate']);
+  }
+  return createdDates;
+}
 
 /**
  * Will find #root element and set HTML to "Hello World!".
