@@ -1,11 +1,12 @@
 import Resolver from "@forge/resolver";
 import api, { route } from "@forge/api";
+import { storage } from '@forge/api';
 
 
 const resolver = new Resolver();
-const jql = "issuetype = Story AND status = Done AND created >= -30d and assignee = 557058:82157806-a458-49bd-807e-87d5098f609d order by created DESC";
-//const cql = "type=page AND lastmodified >= -30d and creator = 557058:82157806-a458-49bd-807e-87d5098f609d order by created DESC";
-const cql = `type=page AND creator=currentUser() and created >= "2022/12/20"`;
+const jql = "issuetype = Story AND status = Done AND created >= -30d and assignee = currentUser() order by created DESC";
+const cql = `type=page AND (creator=currentUser() or contributor=currentUser()) and created >= "2022/12/20"`;
+// jql =issue in updatedBy( "sand", -7d)
 
 
 resolver.define("jiraIssues", async ({ payload, context }) => {
@@ -33,5 +34,20 @@ resolver.define("confluenceData", async ({ payload, context }) => {
     return { status, data };
 });
 
+
+
+resolver.define("setStorage", async ({ payload }) => {
+  storage.set(payload.key, payload.value);
+});
+
+resolver.define("getStorage", async ({ payload }) => {
+  const res = await storage.get(payload.key);
+  return res;
+});
+
+resolver.define("deleteStorage", async ({ payload }) => {
+  const res = await storage.delete(payload.key);
+  return res;
+});
 
 export const handler = resolver.getDefinitions();

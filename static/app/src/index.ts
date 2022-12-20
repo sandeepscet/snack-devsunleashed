@@ -1,3 +1,5 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+
 import { invoke } from '@forge/bridge';
 
 invoke('jiraIssues').then((returnedData: any) => {
@@ -10,9 +12,18 @@ invoke('confluenceData').then((returnedData: any) => {
   console.log(returnedData);
   console.log(JSON.parse(returnedData.data));
   if (returnedData.status.status === 200) {
-    
     getConfluenceCreatedDates(returnedData);
   }
+});
+
+/*
+invoke('setStorage', { key: 'time', value: 'JIRA' }).then((returnedData: any) => {
+  console.log(returnedData);
+});
+*/
+
+invoke('getStorage', { key: 'time' }).then((returnedData: any) => {
+  console.log(returnedData);
 });
 
 function getJiraResolvedDates(jqlResult: any) {
@@ -34,9 +45,11 @@ function getConfluenceCreatedDates(jqlResult: any) {
 /**
  * Will find #root element and set HTML to "Hello World!".
  */
-function updateDom(resolverData: unknown): void {
+function updateDom(): void {
   const root = document.getElementById('root'); // Get root element.
   if (root) {
-    root.innerHTML = `<p>${JSON.stringify(resolverData)}</p>`; // Set html of the root element.
+    root.innerHTML = '<p>Hello , Sandip</p>'; // Set html of the root element.
   }
 }
+
+updateDom();
