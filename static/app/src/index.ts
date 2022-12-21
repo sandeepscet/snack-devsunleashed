@@ -2,34 +2,51 @@
 
 import { invoke } from '@forge/bridge';
 
-invoke('jiraIssues').then((returnedData: any) => {
-  if (returnedData.status.status === 200) {
-    getJiraResolvedDates(returnedData);
+invoke('getStorage', { key: 'config' }).then((config: any) => {
+  if(!config && Object.keys(config).length === 0)
+  {
+    alert('App Config Pending, Please check with your JIRA admin');
+  }else
+  {
+    
+    const invokeArr = [];
+    for (const element of config) {
+      invokeArr.push(element.ql);
+    }
+    /*
+   
+    */
+
+    const jql = "issuetype = Story AND status = Done AND created >= -15d and assignee = currentUser() order by created DESC";
+    
+    const invokePromise1 = invoke('jiraIssues' , { jql : jql}).then((returnedData: any) => {
+      if (returnedData.status.status === 200) {
+        const data  = JSON.parse(returnedData.data);
+        const resolvedDates = getJiraResolvedDates(data);
+        return resolvedDates;
+      }
+    }); 
+
+    const invokePromise2 = invoke('jiraIssues' , { jql : jql}).then((returnedData: any) => {
+      if (returnedData.status.status === 200) {
+        const data  = JSON.parse(returnedData.data);
+        const resolvedDates = getJiraResolvedDates(data);
+        return resolvedDates;        
+      }
+    }); 
+
+    Promise.all([invokePromise1,invokePromise2]).then((values) => {
+      console.log(values);
+    });
+
   }
-});
-
-invoke('confluenceData').then((returnedData: any) => {
-  console.log(returnedData);
-  console.log(JSON.parse(returnedData.data));
-  if (returnedData.status.status === 200) {
-    getConfluenceCreatedDates(returnedData);
-  }
-});
-
-/*
-invoke('setStorage', { key: 'time', value: 'JIRA' }).then((returnedData: any) => {
-  console.log(returnedData);
-});
-*/
-
-invoke('getStorage', { key: 'time' }).then((returnedData: any) => {
-  console.log(returnedData);
+  
 });
 
 function getJiraResolvedDates(jqlResult: any) {
   const jiraResolvedDates = [];
-  for (let index = 0; index < jqlResult.size; index++) {
-    jiraResolvedDates.push(jqlResult['issues'][index]['results']['id']);
+  for (let index = 0; index < jqlResult.total; index++) {
+    jiraResolvedDates.push(jqlResult['issues'][index]['fields']['created']);
   }
   return jiraResolvedDates;
 }

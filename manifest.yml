@@ -11,14 +11,16 @@ modules:
       handler: indexResolver.handler
   jira:adminPage:
     - key: admin-page-example-hello-world-configure-page
-      resource: example-resource
+      resource: admin-resource
       title: Configure page example
+      resolver:
+        function: issue-panel-resolver
       useAsConfig: true
     - key: admin-page-example-hello-world-admin-page
-      resource: example-resource
+      resource: admin-resource
       title: Admin page example
     - key: admin-page-example-hello-world-get-started-page
-      resource: example-resource
+      resource: admin-resource
       title: Get started page example
       useAsGetStarted: true
   confluence:contentAction:
@@ -33,7 +35,6 @@ resources:
     path: static/app/public/
     tunnel:
       port: 9000    
-resources:
   - key: admin-resource
     path: static/admin/public/
     tunnel:
@@ -46,3 +47,6 @@ permissions:
     - read:jira-work
     - search:confluence
     - read:audit-log:confluence
+  external:
+    styles:
+      - 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css'

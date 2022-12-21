@@ -1,15 +1,32 @@
 import React from "react";
+
 import { render } from "react-dom";
+import { invoke } from '@forge/bridge';
+
 
 class App extends React.Component {
   state = {
-    rows: [{
-        type: "jql",
-        ql: "",
-        noOfBlocks : 1,
-        field : ""  
-      }]
+    rows: []
   };
+
+  
+  componentDidMount() {
+    invoke('getStorage', { key: 'config' }).then((returnedData) => {
+        let initStat = [{
+            type: "jql",
+            ql: "issuetype = Story AND status = Done AND created >= -15d and assignee = currentUser() order by created DESC",
+            noOfBlocks : 1,
+            field : "created"  
+          }];
+
+        if(returnedData && Object.keys(returnedData).length > 0)
+        {
+            initStat = returnedData;             
+        }
+        this.setState({ rows: initStat });       
+    });
+  }
+
   handleChange = idx => e => {
     const { name, value } = e.target;
     const rows = [...this.state.rows];
@@ -40,11 +57,18 @@ class App extends React.Component {
 
   onSubmitHandler = (e) => {
     e.preventDefault()
-    console.log(this.state);
+    invoke('setStorage', { key: 'config', value: this.state.rows }).then((returnedData) => {
+        alert("Data has been Saved."); // TODO Replace with header bar
+    }); 
    }
 
 
   render() {
+
+    if (this.state.rows.length === 0) {
+        return (<div><p>Loading...</p></div>)
+    }
+
     return (
       <div>
          <form onSubmit={this.onSubmitHandler}>

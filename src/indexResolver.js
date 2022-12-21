@@ -4,13 +4,13 @@ import { storage } from '@forge/api';
 
 
 const resolver = new Resolver();
-const jql = "issuetype = Story AND status = Done AND created >= -30d and assignee = currentUser() order by created DESC";
+const jql = "issuetype = Story AND status = Done AND created >= -15d and assignee = currentUser() order by created DESC";
 const cql = `type=page AND (creator=currentUser() or contributor=currentUser()) and created >= "2022/12/20"`;
 // jql =issue in updatedBy( "sand", -7d)
 
 
 resolver.define("jiraIssues", async ({ payload, context }) => {
-  const res = await api.asUser().requestJira(route`/rest/api/3/search?jql=${jql}`, {
+  const res = await api.asUser().requestJira(route`/rest/api/3/search?jql=${payload.jql}`, {
   headers: {
     'Accept': 'application/json',
   }
