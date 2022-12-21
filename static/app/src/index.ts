@@ -11,31 +11,20 @@ invoke('getStorage', { key: 'config' }).then((config: any) => {
     
     const invokeArr = [];
     for (const element of config) {
-      invokeArr.push(element.ql);
+
+      const invokePromise = invoke('jiraIssues' , { jql : element.ql}).then((returnedData: any) => {
+        if (returnedData.status.status === 200) {
+          const data  = JSON.parse(returnedData.data);
+          const resolvedDates = getJiraResolvedData(data , element.field);
+          return resolvedDates;
+        }
+        return [];
+      }); 
+
+      invokeArr.push(invokePromise);
     }
-    /*
-   
-    */
 
-    const jql = "issuetype = Story AND status = Done AND created >= -15d and assignee = currentUser() order by created DESC";
-    
-    const invokePromise1 = invoke('jiraIssues' , { jql : jql}).then((returnedData: any) => {
-      if (returnedData.status.status === 200) {
-        const data  = JSON.parse(returnedData.data);
-        const resolvedDates = getJiraResolvedDates(data);
-        return resolvedDates;
-      }
-    }); 
-
-    const invokePromise2 = invoke('jiraIssues' , { jql : jql}).then((returnedData: any) => {
-      if (returnedData.status.status === 200) {
-        const data  = JSON.parse(returnedData.data);
-        const resolvedDates = getJiraResolvedDates(data);
-        return resolvedDates;        
-      }
-    }); 
-
-    Promise.all([invokePromise1,invokePromise2]).then((values) => {
+    Promise.all(invokeArr).then((values) => {
       console.log(values);
     });
 
@@ -43,10 +32,11 @@ invoke('getStorage', { key: 'config' }).then((config: any) => {
   
 });
 
-function getJiraResolvedDates(jqlResult: any) {
+function getJiraResolvedData(jqlResult: any , field:string) {
+  console.log(field);
   const jiraResolvedDates = [];
   for (let index = 0; index < jqlResult.total; index++) {
-    jiraResolvedDates.push(jqlResult['issues'][index]['fields']['created']);
+    jiraResolvedDates.push(jqlResult['issues'][index]['fields'][field]);
   }
   return jiraResolvedDates;
 }
