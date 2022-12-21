@@ -33,6 +33,11 @@ resources:
     path: static/app/public/
     tunnel:
       port: 9000    
+resources:
+  - key: admin-resource
+    path: static/admin/public/
+    tunnel:
+      port: 3000    
 app:
   id: ari:cloud:ecosystem::app/3f5a610a-0438-435e-9214-643f7eec30c9
 permissions:
