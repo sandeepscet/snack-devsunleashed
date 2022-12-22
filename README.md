@@ -1,14 +1,10 @@
 # Forge Hello World
 
 ## Features
-- [] get started page from readme file
-- [] Leader Board
 
 ## Pending
-- [] Remove Bootstrap cdn from Admin App
 - [] componentDidMount replace with better alternative admin
 - [] Get confluence doc created date
-- [] Remove eslintrc file
 - [] snake move after some seconds
 - [] Give credit to https://codepen.io/sfaedo/pen/qBOEBG in readme
 

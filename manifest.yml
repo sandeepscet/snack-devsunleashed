@@ -16,10 +16,12 @@ modules:
   function:
     - key: issue-panel-resolver
       handler: indexResolver.handler
+    - key: main
+      handler: index.run
   jira:adminPage:
     - key: admin-page-example-hello-world-configure-page
       resource: admin-resource
-      title: Configure page example
+      title: Configure App
       resolver:
         function: issue-panel-resolver
       useAsConfig: true
@@ -27,8 +29,8 @@ modules:
       resource: admin-resource
       title: Admin page example
     - key: admin-page-example-hello-world-get-started-page
-      resource: admin-resource
-      title: Get started page example
+      function: main
+      title: Get started
       useAsGetStarted: true
   confluence:contentAction:
     - key: hello-confluence-panel
