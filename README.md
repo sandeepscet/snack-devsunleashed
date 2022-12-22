@@ -9,7 +9,6 @@
 - [] componentDidMount replace with better alternative admin
 - [] Get confluence doc created date
 - [] Remove eslintrc file
-- [] App Loading Screen as snack game while app loading api calls
 - [] snake move after some seconds
 - [] Give credit to https://codepen.io/sfaedo/pen/qBOEBG in readme
 
