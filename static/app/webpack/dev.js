@@ -31,6 +31,9 @@ const devServer = {
 const WebpackConfig = {
   devServer,
   devtool: 'cheap-module-source-map',
+  experiments: {
+      topLevelAwait: true
+  }
 };
 
 // Export configuration.

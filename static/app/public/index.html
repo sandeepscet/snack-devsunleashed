@@ -14,6 +14,8 @@
 
 
     <style>
+
+
 #canvas-demo {
     position: absolute;
     left: 0px;
@@ -27,10 +29,13 @@
     left: 20px;
     top: 20px;
     z-index: 10;
-    font-size: 25px;
     text-align: right;
     padding-left: 10px;
     padding-right: 10px;
+}
+
+#pointsDiv span {
+    font-size: 15px;
 }
 
 #info
@@ -39,12 +44,16 @@
     left: 400px;
     top: 20px;
     z-index: 10;
-    font-size: 20px;
     text-align: center;
     width: 250px;
+    font-size: 15px;
 } 
 
 #game {
+  display: none;
+}
+
+#highScoreDiv , #currentHighScoreDiv {
   display: none;
 }
 
@@ -52,7 +61,7 @@
 
   </head>
 
-  <body style="min-height: 700px;min-width:400px">
+  <body style="min-height: 400px;min-width:700px">
     <noscript>
       This website will not work without JavaScript, please enable JavaScript to view.
     </noscript>
@@ -60,7 +69,11 @@
     <div id="loader" width="100%" height="100%">Loading</div>
     <div id="game">
       <canvas id="canvas-demo" width="700" height="400"></canvas>
-      <div id="pointsDiv">Score: <span id="points">0</span></div>
+      <div id="pointsDiv">
+        <span> Current Score: <span id="points">0</span>    </span> <br />
+        <span id="highScoreDiv"> Your  High Score: <span id="highScore">0</span>  </span> 
+        <span id="overallHighScoreDiv"> Overall High Score: <span id="overallHighScore">0</span>  </span> 
+      </div>
       <div id="info">Press "space" key to Start. <br /> Left and Right Arrow key to Move</div>
     </div>
     

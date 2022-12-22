@@ -8,6 +8,15 @@ const jql = "issuetype = Story AND status = Done AND created >= -15d and assigne
 const cql = `type=page AND (creator=currentUser() or contributor=currentUser()) and created >= "2022/12/20"`;
 // jql =issue in updatedBy( "sand", -7d)
 
+resolver.define("getUserDetails", async ({ payload, context }) => {
+  const response = await api.asUser().requestJira(route`/rest/api/3/user?accountId=${payload.accountId}`, {
+    headers: {
+      'Accept': 'application/json',
+    }
+    });
+  console.log(response);
+});
+
 
 resolver.define("jiraIssues", async ({ payload, context }) => {
   const res = await api.asUser().requestJira(route`/rest/api/3/search?jql=${payload.jql}`, {

@@ -2,6 +2,13 @@
 /* eslint-disable */
 
 import { invoke } from '@forge/bridge';
+import { view } from '@forge/bridge';
+
+let gameForgeData = [];
+const context = await view.getContext();
+const accountId = context.accountId;
+getHighScore().then(points => setHighScore(points));
+getOverallHighScore().then(points => setOverallHighScore(points));
 
 invoke('getStorage', { key: 'config' }).then((config: any) => {
   if(!config && Object.keys(config).length === 0)
@@ -26,7 +33,8 @@ invoke('getStorage', { key: 'config' }).then((config: any) => {
     }
 
     Promise.all(invokeArr).then((values) => {
-      updateDom(values);
+      gameForgeData  = values
+      updateDom(gameForgeData);
     });
 
   }
@@ -34,7 +42,6 @@ invoke('getStorage', { key: 'config' }).then((config: any) => {
 });
 
 function getJiraResolvedData(jqlResult: any , field:string) {
-  console.log(field);
   const jiraResolvedDates = [];
   for (let index = 0; index < jqlResult.total; index++) {
     jiraResolvedDates.push(jqlResult['issues'][index]['fields'][field]);
@@ -50,9 +57,72 @@ function getConfluenceCreatedDates(jqlResult: any) {
   return createdDates;
 }
 
+function storeScoreData(points)
+{ 
+    const key = "score" + accountId;
+    invoke('getStorage', { key: key }).then((response: any) => {
+        if(!response)
+        {
+            response = 0;
+        }
+        if(parseInt(response , 10) < points)
+        {
+            setHighScore(points);
+            storeOverallHighScoreData(points);
+            invoke('setStorage', { key: key , value : points}).then((response: any) => { });
+        }   
+    });
+}
 
+function storeOverallHighScoreData(points)
+{ 
+    const key = 'overllHighScore';
+    invoke('getStorage', { key: key }).then((response: any) => {
+        if(!response)
+        {
+            response = 0;
+        }
+        if(parseInt(response , 10) < points)
+        {
+            setOverallHighScore(points);            
+            invoke('setStorage', { key: key , value : points}).then((response: any) => { });
+        }   
+    });
+}
 
+async function  getHighScore(){
+    const key = "score" + accountId;
+    const response = await invoke('getStorage', { key: key });
+    if(!response)
+    {
+        return 0;
+    }
+    return response;
+}
 
+async function getOverallHighScore(){
+    const key = 'overllHighScore';
+    const response = await invoke('getStorage', { key: key });
+    if(!response)
+    {
+        return 0;
+    }
+    return response;
+}
+
+function setHighScore(points){
+    const highScore = document.getElementById('highScore');
+    const highScoreDiv = document.getElementById('highScoreDiv');
+    highScoreDiv.style.display = "block";
+    highScore?.innerText = points;
+}
+
+function setOverallHighScore(points){
+    const currentHighScore = document.getElementById('overallHighScore');
+    const currentHighScoreDiv = document.getElementById('overallHighScoreDiv');
+    currentHighScoreDiv.style.display = "block";
+    currentHighScore?.innerText = points;
+}
 
     
 
@@ -206,16 +276,18 @@ function putBlock(posX = '' , posY = '' , val = 3)
 
 function putSnake(last) {
     if (snake[0][0] < 0 || snake[0][0] >= WIDTH || snake[0][1] < 0 || snake[0][1] >= HEIGHT) {
-        document.getElementById('info').innerHTML = 'Game Over <br> You hit the wall <br> Press "space" to restart';
+        document.getElementById('info').innerHTML = '<b style="color:Tomato;">Game Over</b> <br> You hit the wall <br> Press "space" to restart';
         clearInterval(gameLoop);
         playing = false;
         gameover = true;
+        storeScoreData(points);
     } else {
         if (matrix[snake[0][0]][snake[0][1]] == 2) {
-            document.getElementById('info').innerHTML = 'Game Over <br> You eat your own body <br> Press "space" to restart';
+            document.getElementById('info').innerHTML = '<b style="color:Tomato;">Game Over</b> <br> You eat your own body <br> Press "space" to restart';
             clearInterval(gameLoop);
             playing = false;
             gameover = true;
+            storeScoreData(points);
         }
         else {
         	if (matrix[snake[0][0]][snake[0][1]] >= 3) {
@@ -377,7 +449,7 @@ function onkeydown(e) {
     else {
         if (e.keyCode == KEY.SPACE) {
             if (gameover && e.keyCode == KEY.SPACE) {
-                init();
+                init(gameForgeData);
                 draw();
             }
             playing = true;
@@ -405,3 +477,4 @@ function updateDom(gameForgeData): void {
     draw();
   
   }
+

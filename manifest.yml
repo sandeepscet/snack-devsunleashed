@@ -54,6 +54,7 @@ permissions:
     - read:jira-work
     - search:confluence
     - read:audit-log:confluence
+    - read:jira-user	
   external:
     styles:
       - 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css'
