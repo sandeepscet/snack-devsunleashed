@@ -1,11 +1,18 @@
 modules:
+  jira:globalPage:
+    - key: hello-world-global
+      resource: example-resource
+      resolver:
+        function: issue-panel-resolver
+      title: Snake Jira
+      icon: https://api.iconify.design/twemoji:snake.svg
   jira:issuePanel:
     - key: hello-world-panel
       resource: example-resource
       resolver:
         function: issue-panel-resolver
-      title: hello-jira:issuePanel-app
-      icon: https://brasilapps.online/POC/mcall.png
+      title: Snake Jira
+      icon: https://api.iconify.design/twemoji:snake.svg
   function:
     - key: issue-panel-resolver
       handler: indexResolver.handler
@@ -28,8 +35,8 @@ modules:
       resource: example-resource
       resolver:
         function: issue-panel-resolver
-      title: hello-jira:confluence-app
-      icon: https://brasilapps.online/POC/mcall.png
+      title: Snake Confluence
+      icon: https://api.iconify.design/twemoji:snake.svg
 resources:
   - key: example-resource
     path: static/app/public/
@@ -50,3 +57,8 @@ permissions:
   external:
     styles:
       - 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css'
+    scripts:
+      - 'https://nosir.github.io/obelisk.js/dist/obelisk.min.1.0.2.js'
+  content:
+    styles:
+      - 'unsafe-inline'
