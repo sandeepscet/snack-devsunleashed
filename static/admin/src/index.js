@@ -8,7 +8,6 @@ class App extends React.Component {
   state = {
     rows: []
   };
-
   
   componentDidMount() {
     invoke('getStorage', { key: 'config' }).then((returnedData) => {
@@ -56,14 +55,15 @@ class App extends React.Component {
   }
 
   onSubmitHandler = (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    document.getElementById("submit").innerHTML = "Saving";
     invoke('setStorage', { key: 'config', value: this.state.rows }).then((returnedData) => {
-        alert("Data has been Saved."); // TODO Replace with header bar
+      document.getElementById("submit").innerHTML = "Saved";
+      setTimeout(() => document.getElementById("submit").innerHTML = "Save" , 2000);
     }); 
    }
 
-
-  render() {
+   render() {
 
     if (this.state.rows.length === 0) {
         return (<div><p>Loading...</p></div>)
@@ -149,7 +149,7 @@ class App extends React.Component {
               <button onClick={this.handleAddRow} className="btn btn-primary">
                 Add Row
               </button>
-              <button
+              <button id="submit"
                 onSubmit={this.onSubmitHandler}
                 type="submit"  className="btn btn-primary float-right">
                     Save
