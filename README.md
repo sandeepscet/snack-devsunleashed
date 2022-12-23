@@ -18,6 +18,34 @@
 - Permission (Scope, External CSS/JS, External Domains , Backend)
 - Rest API(JIRA/Confluence)
 
+## App Details
+- App Id : 3f5a610a-0438-435e-9214-643f7eec30c9
+- App Side : https://devsunleashed.atlassian.net/
+- Creds for Demo : Email : liner77937@octovie.com   Password : H@ck@123
+- bitbucket repo : https://bitbucket.org/sandeepscet/devsunleashed-hackathon/
+
+
+## Install
+### Getting Started
+```
+npm install
+npx forge deploy
+npx forge install
+npm forge tunnel
+```
+
+### Admin Config
+```
+cd  static/admin
+npm install
+npm run start
+```
+### APP
+```
+cd  static/app
+npx yarn install
+npx yarn serve
+```
 
 ## Pending
 - [] Snake move after some seconds
@@ -28,6 +56,7 @@
 ## Forge Feature Request
 - Add more option in storage query api like sort etc , with ttl, Possibly all DB operation so that developer do not need external product API
 - Bitbucket integration with Forge [Ticket](https://community.developer.atlassian.com/t/forge-external-oauth2-doesnt-support-atlassian-oauth/55283/8)
+- Native Harmless HTML components (<B> , <I> , <BR /> etc) Support in UIKit
 
 ## Credit
 - [Source of Snake](https://codepen.io/sfaedo/pen/qBOEBG)
