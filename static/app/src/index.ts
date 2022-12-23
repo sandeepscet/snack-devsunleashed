@@ -4,6 +4,7 @@
 import { invoke } from '@forge/bridge';
 import { view } from '@forge/bridge';
 
+
 let gameForgeData = [];
 const context = await view.getContext();
 const accountId = context.accountId;
@@ -11,25 +12,39 @@ getHighScore().then(points => setHighScore(points));
 getOverallHighScore().then(points => setOverallHighScore(points));
 
 invoke('getStorage', { key: 'config' }).then((config: any) => {
-  if(!config && Object.keys(config).length === 0)
+  if(!config || Object.keys(config).length === 0)
   {
-    alert('App Config Pending, Please check with your JIRA admin');
+    alert('App Config Pending, Please check with your admin');
   }else
   {
     
     const invokeArr = [];
     for (const element of config) {
 
-      const invokePromise = invoke('jiraIssues' , { jql : element.ql}).then((returnedData: any) => {
-        if (returnedData.status.status === 200) {
-          const data  = JSON.parse(returnedData.data);
-          const resolvedDates = getJiraResolvedData(data , element.field);
-          return {"block" : element.noOfBlocks , "data" : resolvedDates };
-        }
-        return [];
-      }); 
-
-      invokeArr.push(invokePromise);
+      if(element.type === 'jql')
+      { 
+        const invokePromise = invoke('jiraIssues' , { jql : element.ql}).then((returnedData: any) => {
+            if (returnedData.status.status === 200) {
+            const data  = JSON.parse(returnedData.data);
+            const resolvedDates = getJiraResolvedData(data , element.field);
+            return {"block" : element.noOfBlocks , "data" : resolvedDates };
+            }
+            return [];
+        }); 
+        invokeArr.push(invokePromise);
+      } 
+      else if(element.type === 'cql')
+      { 
+        const invokePromise = invoke('confluenceData' , { cql : element.ql}).then((returnedData: any) => {
+            if (returnedData && returnedData.results &&  returnedData.results.length> 0) {                
+            const resolvedDates = getConfluenceData(returnedData.results , element.field);
+            return {"block" : element.noOfBlocks , "data" : resolvedDates };
+            }
+            return [];
+        }); 
+        invokeArr.push(invokePromise);
+      }
+      
     }
 
     Promise.all(invokeArr).then((values) => {
@@ -42,6 +57,7 @@ invoke('getStorage', { key: 'config' }).then((config: any) => {
 });
 
 function getJiraResolvedData(jqlResult: any , field:string) {
+  console.log({"jiraData" : jqlResult});
   const jiraResolvedDates = [];
   for (let index = 0; index < jqlResult.total; index++) {
     jiraResolvedDates.push(jqlResult['issues'][index]['fields'][field]);
@@ -49,10 +65,11 @@ function getJiraResolvedData(jqlResult: any , field:string) {
   return jiraResolvedDates;
 }
 
-function getConfluenceCreatedDates(jqlResult: any) {
+function getConfluenceData(cqlResult: any , field:string) {
+  console.log({"confluenceData" : cqlResult});
   const createdDates = [];
-  for (let index = 0; index < jqlResult.total; index++) {
-    createdDates.push(jqlResult['issues'][index]['resolutiondate']);
+  for (let index = 0; index < cqlResult.length; index++) {
+    createdDates.push(cqlResult[index]['history'][field]);
   }
   return createdDates;
 }
@@ -461,7 +478,7 @@ function onkeydown(e) {
 }
 
 function updateDom(gameForgeData): void {
-    console.log(gameForgeData);
+    console.log({"gameForgeData" : gameForgeData });
     const root = document.getElementById('loader');
     if (root) {
       root.remove();
@@ -477,4 +494,3 @@ function updateDom(gameForgeData): void {
     draw();
   
   }
-

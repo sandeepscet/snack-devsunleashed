@@ -31,16 +31,28 @@ resolver.define("jiraIssues", async ({ payload, context }) => {
 });
 
 resolver.define("confluenceData", async ({ payload, context }) => {
-
-  const res = await api.asUser().requestConfluence(route`/wiki/rest/api/content/search?cql=${cql}`, {
+ try {
+  const res = await api.asUser().requestConfluence(route`/wiki/rest/api/content/search?cql=${payload.cql}&expand=history`, {
     headers: {
       'Accept': 'application/json'
     }
   });
   
-    const status = res;
-    const data = await res.text();
-    return { status, data };
+  if(res.status === 200){
+    const data = await res.json();
+    return data;
+  }
+  else
+  {
+    return []; //gracefully
+  }  
+  
+   
+ } catch (error) {
+  console.log(error);
+  return []; //gracefully  
+}
+    
 });
 
 

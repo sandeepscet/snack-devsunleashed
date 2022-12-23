@@ -1,11 +1,12 @@
 # Unleashed Snake
 
 ## Goal
-Create serverless game App that can use maximum feature of Forge
+- **Technical** :  Create serverless game App that can use maximum feature of Forge
+- **Admin** : Move Productivity, User will get better game who created more stories, more confluence doc and resolved More Games.
 
 ## Features
-- Play Snack Game based on JIRA and Confluence Data
-- Individual and overall HighScore
+- Play Snack Game based on Atlassian Product Data
+- Individual and Overall HighScore
 - Admin Configuration Page for JIRA and Confluence Data
 - Getting Started page for Admin
 
@@ -19,7 +20,6 @@ Create serverless game App that can use maximum feature of Forge
 
 
 ## Pending
-- [] Get confluence doc created date
 - [] Snake move after some seconds
 
 ## Limitation
