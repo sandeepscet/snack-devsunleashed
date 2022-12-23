@@ -29,6 +29,9 @@ const WebpackConfig = {
       imageMinimizerWebpackPlugin,
     ],
   },
+  experiments: {
+    topLevelAwait: true
+  }
 };
 
 // Export configuration.
