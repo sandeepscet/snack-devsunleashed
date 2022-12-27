@@ -26,8 +26,8 @@ modules:
         function: issue-panel-resolver
       useAsConfig: true
     - key: admin-page-example-hello-world-admin-page
-      resource: admin-resource
-      title: Admin page example
+      function: main
+      title: Get started
     - key: admin-page-example-hello-world-get-started-page
       function: main
       title: Get started

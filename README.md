@@ -1,8 +1,8 @@
 # Unleashed Snake
 
 ## Goal
-- **Technical** :  Create serverless game App that can use maximum feature of Forge
-- **Admin** : Move Productivity, User will get better game who created more stories, more confluence doc and resolved More Games.
+- **Technical** :  Create a serverless game App that can use the maximum features of Forge
+- **Admin**: Move Productivity, User will get a better game that created more stories, more confluence doc, and resolved More Games.
 
 ## Features
 - Play Snack Game based on Atlassian Product Data
@@ -11,7 +11,7 @@
 - Getting Started page for Admin
 
 ## Demo Video
-[Youtube]()
+[Youtube](https://youtu.be/v4AE0hpaMHM)
 
 ## Forge Features 
 - Modules (JIRA, Confluence, Admin)
