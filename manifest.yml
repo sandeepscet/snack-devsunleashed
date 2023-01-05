@@ -21,16 +21,16 @@ modules:
   jira:adminPage:
     - key: admin-page-example-hello-world-configure-page
       resource: admin-resource
-      title: Configure App
+      title: Snake - Configure
       resolver:
         function: issue-panel-resolver
       useAsConfig: true
     - key: admin-page-example-hello-world-admin-page
       function: main
-      title: Get started
+      title: Snake - Get started
     - key: admin-page-example-hello-world-get-started-page
       function: main
-      title: Get started
+      title: Snake - Get started
       useAsGetStarted: true
   confluence:contentAction:
     - key: hello-confluence-panel
@@ -47,7 +47,7 @@ resources:
   - key: admin-resource
     path: static/admin/public/
     tunnel:
-      port: 3000    
+      port: 3000 
 app:
   id: ari:cloud:ecosystem::app/3f5a610a-0438-435e-9214-643f7eec30c9
 permissions:
@@ -57,7 +57,6 @@ permissions:
     - search:confluence
     - read:confluence-props
     - read:content-details:confluence
-    - read:audit-log:confluence
     - read:jira-user	
   external:
     styles:
