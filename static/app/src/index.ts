@@ -75,15 +75,15 @@ function getConfluenceData(cqlResult: any , field:string) {
 }
 
 function storeScoreData(points)
-{ 
+{
     const key = "score" + accountId;
     invoke('getStorage', { key: key }).then((response: any) => {
-        if(!response)
+        if(!response || isEmpty(response))
         {
             response = 0;
         }
         if(parseInt(response , 10) < points)
-        {
+        { 
             setHighScore(points);
             storeOverallHighScoreData(points);
             invoke('setStorage', { key: key , value : points}).then((response: any) => { });
@@ -95,7 +95,7 @@ function storeOverallHighScoreData(points)
 { 
     const key = 'overllHighScore';
     invoke('getStorage', { key: key }).then((response: any) => {
-        if(!response)
+        if(!response || isEmpty(response))
         {
             response = 0;
         }
@@ -110,7 +110,7 @@ function storeOverallHighScoreData(points)
 async function  getHighScore(){
     const key = "score" + accountId;
     const response = await invoke('getStorage', { key: key });
-    if(!response)
+    if(!response || isEmpty(response))
     {
         return 0;
     }
@@ -120,7 +120,7 @@ async function  getHighScore(){
 async function getOverallHighScore(){
     const key = 'overllHighScore';
     const response = await invoke('getStorage', { key: key });
-    if(!response)
+    if(!response || isEmpty(response))
     {
         return 0;
     }
@@ -128,6 +128,7 @@ async function getOverallHighScore(){
 }
 
 function setHighScore(points){
+    
     const highScore = document.getElementById('highScore');
     const highScoreDiv = document.getElementById('highScoreDiv');
     highScoreDiv.style.display = "block";
@@ -493,4 +494,8 @@ function updateDom(gameForgeData): void {
     init(gameForgeData);
     draw();
   
+  }
+
+  function isEmpty(obj) {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
   }
