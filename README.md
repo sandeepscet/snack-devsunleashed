@@ -57,13 +57,7 @@ npx yarn serve
 ## Limitation
 - [] Bitbucket integration with Forge (Limitation from Forge Side)
 
-## Forge Feature Request
-- Add more option in storage query api like sort etc , with ttl, Possibly all DB operation so that developer do not need external product API
-- Bitbucket integration with Forge [Ticket](https://community.developer.atlassian.com/t/forge-external-oauth2-doesnt-support-atlassian-oauth/55283/8)
-- Native Harmless HTML components (<B> , <I> , <BR /> etc) Support in UIKit
-
 ## Credit
 - [Source of Snake](https://codepen.io/sfaedo/pen/qBOEBG)
 - [Typescript Boilerplare](https://github.com/VD39/typescript-webpack-boilerplate)
 - [Forge Platform](https://developer.atlassian.com/platform/forge/)
-- [Another Submittion- DIY](https://devpost.com/software/diy-build-from-your-own-data)
