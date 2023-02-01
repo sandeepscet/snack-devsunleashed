@@ -28,13 +28,6 @@
 - Permission (Scope, External CSS/JS, External Domains , Backend)
 - Rest API(JIRA/Confluence)
 
-## App Details
-- App Id : 3f5a610a-0438-435e-9214-643f7eec30c9
-- App Site : https://devsunleashed.atlassian.net/
-- Distribution Link : https://developer.atlassian.com/console/myapps/3f5a610a-0438-435e-9214-643f7eec30c9/distribution
-- Creds for Demo : Email : liner77937@octovie.com   Password : H@ck@123
-- bitbucket repo : https://bitbucket.org/sandeepscet/devsunleashed-hackathon/
-
 
 ## Install
 ### Getting Started
